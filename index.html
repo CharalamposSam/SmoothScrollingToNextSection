@@ -34,7 +34,7 @@
             direction > 0 ? currentSection++ : currentSection--
             currentSection == 0 ? currentSection = 1 : null
             currentSection == numberOfSections + 1 ? currentSection = 3 : null
-            console.log( currentSection )
+            //onsole.log( 'section: ' + currentSection )
             function animation( currentTime ) {
                 if ( startTime === null ) startTime = currentTime
                 let timeElapsed = currentTime - startTime
@@ -90,24 +90,32 @@
   
       
 
-    let isDown = false, startY
+    let isDown = false, startY, walk, y
     function test( e ) {
-        console.log( 'efb' )
-        isDown = true;
+         console.log( 'section: ' + currentSection )
+        //isDown = true;
         startY = e.touches[0].pageY - sections[ currentSection - 1 ].offsetTop;
-        sections[ currentSection - 1 ].addEventListener("touchend", () => {
-            isDown = false;
 
-            sections[ currentSection - 1 ].addEventListener("touchmove", e => {
-            if (!isDown) return;
-            const y = e.touches[0].pageY - sections[ currentSection - 1 ].offsetTop;
-            const walk = (y - startY);
+        sections[ currentSection - 1 ].addEventListener("touchend", () => {
+            //isDown = false;
+             startY < y ? direction = -1 : direction = 1 
+             console.log( direction )
+             //startY > startY + walk ? direction = -1 : direction = 1
+        })
+
+        sections[ currentSection - 1 ].addEventListener("touchmove", e => {
+            //if (!isDown) return;
+            y = e.touches[0].pageY - sections[ currentSection - 1 ].offsetTop;
+            //walk = (y - startY);
+            
+            
+            })
+
             //console.log( startY > startY + walk ? 'up' : 'down' )
             
-            startY > startY + walk ? direction = -1 : direction = 1
+            
+            
             smoothScroll( 1300 )
-            })
-        })
       }
     </script>
 </body>
