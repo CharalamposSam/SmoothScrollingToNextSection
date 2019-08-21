@@ -52,7 +52,7 @@
             requestAnimationFrame( animation )
         }
       document.addEventListener( 'wheel', throttle( scrollChange, 1500 ) )
-      document.addEventListener( 'touchstart', test ) 
+      document.addEventListener( 'touchstart', mobibeSmoothScroll ) 
       function scrollChange( e ) {
           if ( e.deltaY > 0 ) {
             direction = 1
@@ -81,40 +81,22 @@
       } )
       
       
-
-
-
-
-    
-    
-  
-      
-
     let isDown = false, startY, walk, y
-    function test( e ) {
+    function mobibeSmoothScroll( e ) {
          console.log( 'section: ' + currentSection )
-        //isDown = true;
-        startY = e.touches[0].pageY - sections[ currentSection - 1 ].offsetTop;
+       
+        startY = e.touches[ 0 ].pageY - sections[ currentSection - 1 ].offsetTop;
 
-        sections[ currentSection - 1 ].addEventListener("touchend", () => {
-            //isDown = false;
+        sections[ currentSection - 1 ].addEventListener('touchend', () => {
+           
              startY < y ? direction = -1 : direction = 1 
-             console.log( direction )
-             //startY > startY + walk ? direction = -1 : direction = 1
         })
 
-        sections[ currentSection - 1 ].addEventListener("touchmove", e => {
-            //if (!isDown) return;
-            y = e.touches[0].pageY - sections[ currentSection - 1 ].offsetTop;
-            //walk = (y - startY);
-            
-            
-            })
+        sections[ currentSection - 1 ].addEventListener( 'touchmove', e => {
+            y = e.touches[ 0 ].pageY - sections[ currentSection - 1 ].offsetTop;
+           
+        } )
 
-            //console.log( startY > startY + walk ? 'up' : 'down' )
-            
-            
-            
             smoothScroll( 1300 )
       }
     </script>
