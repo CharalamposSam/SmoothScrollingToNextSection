@@ -24,16 +24,19 @@
         let direction
         const sections = document.querySelectorAll( 'section' )
         function smoothScroll( duration ) {
+            
             let vh = document.querySelector( '.section1' ).clientHeight
             var startPosition = window.pageYOffset
-            var distance = direction * vh
+            var distance = vh
             var startTime = null
+            console.log( direction )
             function animation( currentTime ) {
                 if ( startTime === null ) startTime = currentTime
                 var timeElapsed = currentTime - startTime
                 var run = ease( timeElapsed, startPosition, distance, duration )
                 window.scrollTo( 0, run )
                 if ( timeElapsed < duration ) requestAnimationFrame( animation )
+                
             }
             function ease(t, b, c, d) {
                 t /= d / 2
@@ -44,7 +47,7 @@
             requestAnimationFrame( animation )
         }
       document.addEventListener( 'wheel', throttle( scrollChange, 1500 ) )
-      document.addEventListener( 'touchmove', throttle( scrollChange, 1500 ) )
+      document.addEventListener( 'touchstart', test ) 
       function scrollChange( e ) {
           if ( e.deltaY > 0 ) {
             direction = 1
@@ -71,6 +74,35 @@
             section.style.height = `100vh`
         } )
       } )
+      
+      
+
+
+
+
+    
+    
+  
+      
+
+    let isDown = false, startY
+    function test( e ) {
+        isDown = true;
+        startY = e.touches[0].pageY - sections[0].offsetTop;
+        sections[0].addEventListener("touchend", () => {
+            isDown = false;
+
+            sections[0].addEventListener("touchmove", e => {
+            if (!isDown) return;
+            const y = e.touches[0].pageY - sections[0].offsetTop;
+            const walk = (y - startY);
+            //console.log( startY > startY + walk ? 'up' : 'down' )
+            
+            startY > startY + walk ? direction = -1 : direction = 1
+            smoothScroll( 1300 )
+            })
+        })
+      }
     </script>
 </body>
 </html>
