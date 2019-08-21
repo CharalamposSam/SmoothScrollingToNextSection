@@ -21,19 +21,24 @@
     <section class="section2" style="background: green"></section>
     <section class="section3" style="background: blue"></section>
     <script>
-        let direction
+        let direction, currentSection = 1, numberOfSections = 3
         const sections = document.querySelectorAll( 'section' )
         function smoothScroll( duration ) {
             
             let vh = document.querySelector( '.section1' ).clientHeight
-            var startPosition = window.pageYOffset
-            var distance = vh
-            var startTime = null
-            console.log( direction )
+            let startPosition = window.pageYOffset
+            let distance = direction * vh
+            let startTime = null
+            //console.log( direction < 0 ? window.scrollY - vh : window.scrollY + vh ) 
+             
+            direction > 0 ? currentSection++ : currentSection--
+            currentSection == 0 ? currentSection = 1 : null
+            currentSection == numberOfSections + 1 ? currentSection = 3 : null
+            console.log( currentSection )
             function animation( currentTime ) {
                 if ( startTime === null ) startTime = currentTime
-                var timeElapsed = currentTime - startTime
-                var run = ease( timeElapsed, startPosition, distance, duration )
+                let timeElapsed = currentTime - startTime
+                let run = ease( timeElapsed, startPosition, distance, duration )
                 window.scrollTo( 0, run )
                 if ( timeElapsed < duration ) requestAnimationFrame( animation )
                 
@@ -87,14 +92,15 @@
 
     let isDown = false, startY
     function test( e ) {
+        console.log( 'efb' )
         isDown = true;
-        startY = e.touches[0].pageY - sections[0].offsetTop;
-        sections[0].addEventListener("touchend", () => {
+        startY = e.touches[0].pageY - sections[ currentSection - 1 ].offsetTop;
+        sections[ currentSection - 1 ].addEventListener("touchend", () => {
             isDown = false;
 
-            sections[0].addEventListener("touchmove", e => {
+            sections[ currentSection - 1 ].addEventListener("touchmove", e => {
             if (!isDown) return;
-            const y = e.touches[0].pageY - sections[0].offsetTop;
+            const y = e.touches[0].pageY - sections[ currentSection - 1 ].offsetTop;
             const walk = (y - startY);
             //console.log( startY > startY + walk ? 'up' : 'down' )
             
