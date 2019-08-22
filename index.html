@@ -27,17 +27,15 @@
             currentSection = 1
             
         function smoothScroll( duration ) {
-            //console.log( direction )
+            direction > 0 ? currentSection++ : currentSection--
+            currentSection == 0 ? currentSection = 1 : null
+            currentSection == numberOfSections + 1 ? currentSection = 3 : null
+            
             let vh = sections[ 0 ].clientHeight
             let startPosition = window.pageYOffset
             let distance = direction * vh
             let startTime = null
-            //console.log( direction < 0 ? window.scrollY - vh : window.scrollY + vh ) 
-             
-            direction > 0 ? currentSection++ : currentSection--
-            currentSection == 0 ? currentSection = 1 : null
-            currentSection == numberOfSections + 1 ? currentSection = 3 : null
-            //onsole.log( 'section: ' + currentSection )
+            
             function animation( currentTime ) {
                 if ( startTime === null ) startTime = currentTime
                 let timeElapsed = currentTime - startTime
@@ -84,28 +82,22 @@
       } )
       
       
-    let flag = true, startY, walk, y
+    let flag = true, startY, endY
     function mobibeSmoothScroll( e ) {
-        //console.log( `section:  ${currentSection-1}`)
        
         startY = e.touches[ 0 ].pageY - sections[ currentSection - 1 ].offsetTop;
 
-        sections[ currentSection - 1 ].addEventListener('touchend', () => {
-           
-             startY < y ? direction = -1 : direction = 1 
-             //console.log( startY, y, startY < y ?  '-1' : '1')
-        })
+        sections[ currentSection - 1 ].addEventListener('touchend', ( e ) => {
+            endY = e.changedTouches[ 0 ].pageY - sections[ currentSection - 1 ].offsetTop
+            startY < endY ? direction = -1 : direction = 1 
 
-        sections[ currentSection - 1 ].addEventListener( 'touchmove', e => {
-            y = e.touches[ 0 ].pageY - sections[ currentSection - 1 ].offsetTop;
-           
-        } )
+
             if ( flag ) {
                smoothScroll( 1300 ) 
                flag = false
                setTimeout( () => ( flag = true ), 1500 )
-            } 
-
+            }
+        })
             
       }
     </script>
