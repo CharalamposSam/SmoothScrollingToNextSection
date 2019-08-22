@@ -21,11 +21,14 @@
     <section class="section2" style="background: green"></section>
     <section class="section3" style="background: blue"></section>
     <script>
-        let direction, currentSection = 1, numberOfSections = 3
-        const sections = document.querySelectorAll( 'section' )
+        const sections = document.querySelectorAll( 'section' ),
+              numberOfSections = sections.length
+        let direction, 
+            currentSection = 1
+            
         function smoothScroll( duration ) {
             
-            let vh = document.querySelector( '.section1' ).clientHeight
+            let vh = sections[ 0 ].clientHeight
             let startPosition = window.pageYOffset
             let distance = direction * vh
             let startTime = null
@@ -81,7 +84,7 @@
       } )
       
       
-    let isDown = false, startY, walk, y
+    let flag = true, startY, walk, y
     function mobibeSmoothScroll( e ) {
          console.log( 'section: ' + currentSection )
        
@@ -96,8 +99,13 @@
             y = e.touches[ 0 ].pageY - sections[ currentSection - 1 ].offsetTop;
            
         } )
+            if ( flag ) {
+               smoothScroll( 1300 ) 
+               flag = false
+               setTimeout( () => ( inThrottle = true ), 1500 )
+            } 
 
-            smoothScroll( 1300 )
+            
       }
     </script>
 </body>
