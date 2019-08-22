@@ -23,11 +23,11 @@
     <script>
         const sections = document.querySelectorAll( 'section' ),
               numberOfSections = sections.length
-        let direction, 
+        let direction = 1, 
             currentSection = 1
             
         function smoothScroll( duration ) {
-            
+            //console.log( direction )
             let vh = sections[ 0 ].clientHeight
             let startPosition = window.pageYOffset
             let distance = direction * vh
@@ -86,13 +86,14 @@
       
     let flag = true, startY, walk, y
     function mobibeSmoothScroll( e ) {
-         console.log( 'section: ' + currentSection )
+        //console.log( `section:  ${currentSection-1}`)
        
         startY = e.touches[ 0 ].pageY - sections[ currentSection - 1 ].offsetTop;
 
         sections[ currentSection - 1 ].addEventListener('touchend', () => {
            
              startY < y ? direction = -1 : direction = 1 
+             //console.log( startY, y, startY < y ?  '-1' : '1')
         })
 
         sections[ currentSection - 1 ].addEventListener( 'touchmove', e => {
